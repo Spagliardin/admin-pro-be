@@ -21,7 +21,11 @@ dbConnection()
 
 //Routes
 app.use('/api/users', require('./routes/users'))
+app.use('/api/hospital', require('./routes/hospital'))
+app.use('/api/all', require('./routes/searchs'))
+app.use('/api/medics', require('./routes/medics'))
 app.use('/api/login', require('./routes/auth'))
+app.use('/api/upload', require('./routes/uploads'))
 
 
 
