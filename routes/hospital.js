@@ -29,11 +29,14 @@ router.post("/", [
 ] ,createHospitals);
 
 router.put( '/:id', [
-    
+    validateJWT,
+    check('name', 'El nombre del hospital es necesario').not().isEmpty(),
+    validateCampos
+
 ] , upgradeHospitals )
 
 
-router.delete( '/:id', deleteHospitals )
+router.delete( '/:id', validateJWT, deleteHospitals )
 
 
 

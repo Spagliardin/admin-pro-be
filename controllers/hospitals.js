@@ -43,23 +43,74 @@ const createHospitals = async (req, res = response) => {
 
 }
 
-const upgradeHospitals = (req, res = response) => {
+const upgradeHospitals = async (req, res = response) => {
 
-    res.json({
-        ok: true,
-        msg: 'getHospitials'
-    })
+    const hospitalId = req.params.id
+    const uid = req.uid
+
+    try {
+
+        const hospital = await Hospital.findById(hospitalId)
+
+        if (!hospital) {
+            return res.status(404).json({
+                ok: false,
+                msg: 'Hospital no encontrado',
+            })
+        }
+
+        const changesHospital = {
+            ...req.body,
+            user: uid
+        }
+
+        const hospitalUpgrade = await Hospital.findByIdAndUpdate(hospitalId, changesHospital, { new: true })
+
+        res.json({
+            ok: true,
+            msg: 'Actualizar hospital',
+            hospitalUpgrade
+        })
+    } catch (error) {
+        res.status(500).json({
+            ok: false,
+            msg: 'Error, hable con el admin'
+        })
+    }
+
+    
 
 
 }
 
-const deleteHospitals = (req, res = response) => {
+const deleteHospitals = async (req, res = response) => {
 
-    res.json({
-        ok: true,
-        msg: 'getHospitials'
-    })
+    const hospitalId = req.params.id
 
+    try {
+
+        const hospital = await Hospital.findById(hospitalId)
+
+        if (!hospital) {
+            return res.status(404).json({
+                ok: false,
+                msg: 'Hospital no encontrado',
+            })
+        }
+
+        await Hospital.findByIdAndDelete( hospitalId )
+
+        res.json({
+            ok: true,
+            msg: 'Hospital Eliminado'
+        })
+
+    } catch (error) {
+        res.status(500).json({
+            ok: false,
+            msg: 'Error, hable con el admin'
+        })
+    }
 
 }
 
