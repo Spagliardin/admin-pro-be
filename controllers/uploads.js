@@ -30,7 +30,7 @@ const fileUpload = (req, res = response) => {
     }
 
     // procesar file
-    const file = req.files.imagen
+    const file = req.files.image
 
     const nameCut = file.name.split('.')
     const extensionFile = nameCut[ nameCut.length - 1 ]
@@ -88,10 +88,8 @@ const returnImage = (req, res = response) => {
     if ( fs.existsSync( pathImg ) ) {
         res.sendFile( pathImg ) 
     } else {
-        res.json({
-            ok: false,
-            msg: 'No hay imagen'
-        })
+        const pathImg = path.join( __dirname, '../uploads/no-image.jpg' )
+        res.sendFile( pathImg )
     }
 
 

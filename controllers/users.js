@@ -86,7 +86,14 @@ const upgradeUser = async (req, res = response) => {
       }
     }
 
-    campos.email = email
+    if ( !userDB.google ) {
+      campos.email = email
+    } else if ( userDB.email !== email ){
+      return res.status(400).json({
+        ok: false,
+        msg: 'User google can`t change'
+      })
+    }
 
     // Upgrade
     const userUpgrade = await User.findByIdAndUpdate(uid, campos, { new: true });

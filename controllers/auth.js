@@ -65,7 +65,7 @@ const googleSignIn = async(req, res = response) => {
 
         if (!userDB) {
             user = new User({
-                nombre: name,
+                name,
                 email,
                 password: '@@@',
                 img: picture,
@@ -104,11 +104,13 @@ const renewToken = async (req, res = response) =>{
     const uid = req.uid
 
     const token = await generateJWT( uid )
+    const user = await User.findById( uid )
 
 
     res.json({
         ok:true,
-        uid
+        token,
+        user
     })
 
 } 
